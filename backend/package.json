@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "Sagnik Saha, Aadhir Sandeep, Abhinav Avasarala",
   "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
-    "express": "^4.21.2"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "openai": "^4.77.0"
   }
 }
