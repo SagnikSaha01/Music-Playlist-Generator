@@ -1,42 +1,147 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Overall container with dark background */
+.app-container {
+  min-height: 100vh;
+  background-color: #1a1a1a; /* Dark background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  color: #fff;
+  padding: 14rem 2rem 2rem 2rem;;
+  font-family: sans-serif;
+}
+
+/* Heading in green */
+.heading {
+  color: #1db954; /* Bright green color */
+  margin-bottom: 4rem;
+  font-size: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Input wrapper to ensure gradient border is clearly visible */
+.input-wrapper {
+  margin-top: 0.3rem;
+  margin-bottom: 2.8rem;
+  border: 1px solid transparent;
+  background-image: linear-gradient(to right, #8a2be2, #0000ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 8px;
+  padding: 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Text input */
+.gradient-input {
+  width: 300px;
+  padding: 0.75rem 1rem;
+  border: 3px solid transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #000000;
+  background-color: #C4C4C4;
+  
+ 
+  /*background-image: linear-gradient(to right, #8a2be2, #0000ff); */
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 8px;
 }
 
-.card {
-  padding: 2em;
+/* Button styles */
+.generate-button {
+  background-color: #1db954; /* Green button color */
+  border: none;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 1.2rem;
+  border-radius: 20px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.read-the-docs {
-  color: #888;
+.generate-button:hover {
+  background-color: #ab47fe; /* changes color on hover */
 }
+
+/* Refresh button */
+.refresh-button {
+  background: none;
+  border: none;
+  color: #C4C4C4;
+  font-size: 2.6rem;
+  margin-left: 73.2rem;
+  margin-top: -2.37rem;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.refresh-button:hover {
+  transform: rotate(180deg);
+}
+
+/* Albums container */
+.albums-container {
+  display: flex;
+  gap: 6rem;
+  margin-top: 2rem;
+  flex-wrap: wrap; 
+  justify-content: center; 
+}
+
+/* Individual album card */
+.album-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent; 
+}
+
+/* Wrapper for the album image with a gradient border */
+.album-image-wrapper {
+  border: 3px solid transparent;
+  background-image: linear-gradient(to right, #8a2be2, #0000ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+/* Actual album image */
+.album-image {
+  display: block;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+/*Space under the image */
+.album-frame {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Icons row for minus and heart */
+.album-icons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.minus-icon, .heart-icon {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
