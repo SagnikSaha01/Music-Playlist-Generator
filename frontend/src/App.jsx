@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-
+/*ignore these errors */
+import InputWrapper from './Components/inputwrapper';
+import AlbumCard from './Components/albumcard';
+import Button from './Components/button';
 
 const albumsMockData = [
   {
@@ -30,12 +33,10 @@ function App() {
   const [albums, setAlbums] = useState(albumsMockData);
 
   const handleGenerateClick = () => {
-    // Placeholder for generating something based on `query`
     alert(`Generating something for: "${query}"`);
   };
 
   const handleRefreshClick = () => {
-    // Refresh logic or fetching new data
     alert('Refreshed!');
   };
 
@@ -45,47 +46,13 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Heading */}
       <h1 className="heading">What are we feelin?</h1>
-
-      {/* Input with gradient border */}
-      <div className="input-wrapper">
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Describe a mood, vibe, or emotion..."
-          className="gradient-input"
-        />
-      </div>
-
-      {/* Generate Button */}
-      <button className="generate-button" onClick={handleGenerateClick}>
-        Generate
-      </button>
-
-      {/* Refresh Button (using a Unicode symbol or an emoji) */}
-      <button className="refresh-button" onClick={handleRefreshClick}>
-        &#x21bb; {/* Unicode for a rotating arrow */}
-      </button>
-
-      {/* Album Cards */}
+      <InputWrapper query={query} onInputChange={handleInputChange} />
+      <Button text="Generate" onClick={handleGenerateClick} className="generate-button" />
+      <Button text="&#x21bb;" onClick={handleRefreshClick} className="refresh-button" />
       <div className="albums-container">
-        {albums.map((album) => (
-          <div className="album-card" key={album.id}>
-            <div className="album-image-wrapper">
-              <img src={album.imageUrl} alt={album.title} className="album-image" />
-            </div>
-            <p className="album-frame">
-              
-            </p>
-            {/* Icons row */}
-            <div className="album-icons">
-              <img src="/dislike1.svg" alt="Dislike icon" width = "25" />
-              <br></br>
-              <img src="/like1.svg" alt="Like icon" width = "25" />
-            </div>
-          </div>
+        {albums.map((album, index) => (
+          <AlbumCard key={index} title={album.title} imageUrl={album.imageUrl} />
         ))}
       </div>
     </div>
