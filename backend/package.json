@@ -6,7 +6,7 @@
   "scripts": {},
   "author": "Sagnik Saha, Aadhir Sandeep, Abhinav Avasarala",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

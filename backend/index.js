@@ -1,29 +1,16 @@
-const { OpenAI } = require('openai');
-const express = require('express');
-require('dotenv').config();
-
-const key = process.env.OPENAI_API_KEY;
-const openai = new OpenAI({
-    apiKey: key,
-});
+import express from 'express';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
-const port = 3000;
-    
-app.get('/', (req, res) => res.json({first_json_req: "hello world"}));
-    
-app.listen(port, console.log('Server started on port: ' + port));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for x-www-form-urlencoded bodies
 
 
-async function testFunction() {
-    const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        store: true,
-        messages: [
-            {"role": "user", "content": "write a haiku about ai"}
-        ]
-    });
-    console.log(completion);
-}
+// Routes
+app.use('/api', authRoutes);
+// app.use('/api', require('./routes/songRoutes'));
+// ... etc
 
-testFunction();
+app.listen(3000, () => {
+    console.log("Server running on port 3000")
+})
