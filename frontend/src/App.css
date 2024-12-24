@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: start;
   color: #fff;
-  padding: 14rem 2rem 2rem 2rem;;
+  padding: 14rem 2rem 2rem 2rem;
   font-family: sans-serif;
 }
 
@@ -46,9 +46,6 @@
   font-size: 1rem;
   color: #000000;
   background-color: #C4C4C4;
-  
- 
-  /*background-image: linear-gradient(to right, #8a2be2, #0000ff); */
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border-radius: 8px;
@@ -72,6 +69,24 @@
   background-color: #ab47fe; /* changes color on hover */
 }
 
+/* Button styles */
+.export-button {
+  background-color: #1db954; /* Green button color */
+  border: none;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 1.2rem;
+  border-radius: 20px;
+  margin-top: 5.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.export-button:hover {
+  background-color: #ab47fe; /* changes color on hover */
+}
+
 /* Refresh button */
 .refresh-button {
   background: none;
@@ -82,11 +97,13 @@
   margin-top: -2.37rem;
   margin-bottom: 2.5rem;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, color 0.3s ease; 
+  transform: rotate(90deg); 
 }
 
-.refresh-button:hover {
-  transform: rotate(180deg);
+/* Apply rotation only when the 'rotated' class is added */
+.refresh-button.rotated {
+  transform: rotate(448deg); 
 }
 
 /* Albums container */
@@ -94,8 +111,8 @@
   display: flex;
   gap: 6rem;
   margin-top: 2rem;
-  flex-wrap: wrap; 
-  justify-content: center; 
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Individual album card */
@@ -103,7 +120,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: transparent; 
+  background-color: transparent;
+  opacity: 0; /* Start invisible */
+  transform: translateY(20px); /* Start below the original position */
+  animation: fadeIn 0.3s forwards; /* Apply fadeIn animation */
+}
+
+/* Add delay for each album to appear one after the other */
+.album-card.reset-animation {
+  animation: fadeIn 0.3s forwards; /* Trigger animation reset */
+}
+
+/* Animation for fading in albums */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add delay for each album to appear one after the other */
+.album-card {
+  animation-delay: 0s; /* Default value */
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
 
 /* Wrapper for the album image with a gradient border */
@@ -125,9 +169,9 @@
   border-radius: 3px;
 }
 
-/*Space under the image */
+/* Space under the image */
 .album-frame {
-  margin: 0.5rem 0;
+  margin: 0.6rem 0;
   font-size: 0.9rem;
 }
 
@@ -139,10 +183,81 @@
   align-items: center;
 }
 
-.minus-icon, .heart-icon {
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.2s;
+.minus-icon {
+  background: none; /* No background for the button */
+  border: none; /* No border */
+  padding: 0; /* Remove padding */
+  cursor: pointer; /* Pointer cursor to indicate it's clickable */
+  transition: transform 0.2s ease-in-out, color 0.3s ease; /* Smooth transition for color and transform */
+}
+
+.heart-icon {
+  margin-top: -1px;
+  background: none; /* No background for the button */
+  border: none; /* No border */
+  padding: 0; /* Remove padding */
+  cursor: pointer; /* Pointer cursor to indicate it's clickable */
+  transform: scale(1.2);
+  transition: transform 0.2s ease-in-out, color 0.3s ease; /* Smooth transition for color and transform */
+}
+
+/* Hover effect for color change */
+.minus-icon:hover, .heart-icon:hover {
+  animation: scaleAndRotate 0.5s ease-in-out forwards; /* Apply hover animation */
+}
+
+/* Define the shake animation */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Hover effect on image inside the button (for minus icon with shake animation) */
+.minus-icon.clicked img {
+  filter: invert(10%) sepia(100%) saturate(10000%) hue-rotate(0deg) brightness(90%) contrast(130%);
+  animation: shake 0.5s ease-in-out; /* Apply the shake animation */
+}
+
+/* Hover effect on image inside the button (for heart/like icon) */
+.heart-icon.clicked svg {
+  filter: invert(37%) sepia(68%) saturate(5939%) hue-rotate(105deg) brightness(97%) contrast(101%);
+  animation: fillHeart 0.5s ease forwards, scaleHeart 0.4s ease-out forwards; /* Apply fill and scale animations */
+}
+
+/* Define the fill animation for heart icon */
+@keyframes fillHeart {
+  0% {
+    fill: transparent; 
+  }
+  100% {
+    fill: #1db954; 
+  }
+}
+
+/* Animation for scaling the heart */
+@keyframes scaleHeart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5); 
+  }
+  100% {
+    transform: scale(1); 
+  }
 }
 
 
