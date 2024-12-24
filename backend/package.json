@@ -6,10 +6,16 @@
   "scripts": {},
   "author": "Sagnik Saha, Aadhir Sandeep, Abhinav Avasarala",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
+    "argon2": "^0.41.1",
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "openai": "^4.77.0"
+    "express-session": "^1.18.1",
+    "openai": "^4.77.0",
+    "path": "^0.12.7",
+    "pg": "^8.13.1"
   }
 }
