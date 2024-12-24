@@ -2,6 +2,9 @@ import pkg from 'pg';
 import express from 'express';
 import argon2 from 'argon2';
 import session from 'express-session';
+import env from 'dotenv';
+
+env.config();
 
 const { Client } = pkg;
 
@@ -10,9 +13,9 @@ const app = express();
 const dbClient = new Client({
     user: 'postgres',
     host: 'localhost',
-    database: 'musicApp',
-    password: 'Univariety@123',
-    port: 5432,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 }); 
 
 dbClient
