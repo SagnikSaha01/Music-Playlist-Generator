@@ -1,32 +1,47 @@
+import env from 'dotenv';
 import OpenAI from 'openai';
-import dotenv from 'dotenv';
 
-dotenv.config();
+env.config();
 
 const key = process.env.OPEN_AI_KEY;
 const openai = new OpenAI({
-    apiKey: key,
+    apiKey: process.env.OPEN_AI_KEY,
 });
 
+export const getResponse = async (userInput) => {
+    try {
+        const response = await openai.chat.completions.create({
+            model: "gpt-4",
+            messages: [
+                {
+                    role: "user",
+                    content: `You don't need to act like an API. Just generate a JSON response EXACTLY in the following format. I want top 3 songs, based on the mood of the user. The input will be a mood and the strength of the mood. The output should be a JSON object with the mood, strength of the mood, and an array of songs. The songs should have the song name and the artist's name. I don't want you to respond with anything else except a JSON object that should look like this:
+                    {
+                      "mood": "mood of the user",
+                      "strength of the mood": "0 to 1",
+                      "songs": [
+                        { "songName": "song1", "artistsName": "artist1" },
+                        { "songName": "song2", "artistsName": "artist2" },
+                        { "songName": "song3", "artistsName": "artist3" }
+                      ]
+                    }
+                    The input is: ${userInput}`
+                }
+            ]
+        });
 
-export const getResponse = async(req, res) => {
-    const userInput = ""; //This should be replaced by whatever the user types in
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-            { role: "user", content: "Give me 5 I should listen to based on the mood of this sentence as a json file: " 
-                + userInput
-            }
-          ],
-          max_tokens: 30,
-    });
-    console.log(response.choices[0].message.content);
+        const parsedResponse = response.choices[0].message.content;
+        return parsedResponse;
+    } catch (error) {
+        console.error("Error fetching response:", error);
+        return {
+            mood: 'undefined',
+            'strength of the mood': '0',
+            songs: [
+                { songName: 'No relevant song', artistsName: 'No relevant artist' },
+                { songName: 'No relevant song', artistsName: 'No relevant artist' },
+                { songName: 'No relevant song', artistsName: 'No relevant artist' }
+            ]
+        };
+    }
 };
-
-
-function parseInput(input){
-
-};
-
-
-
