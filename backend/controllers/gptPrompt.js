@@ -31,10 +31,25 @@ export const getResponse = async (userInput) => {
         });
 
         const parsedResponse = response.choices[0].message.content;
-        return parsedResponse;
+        try {
+            // Attempt to parse as JSON directly
+            return JSON.parse(parsedResponse);
+        } catch (parsingError) {
+            // If direct parsing fails, clean the response
+            parsedResponse = parsedResponse.trim();
+            const jsonStart = parsedResponse.indexOf('{');
+            const jsonEnd = parsedResponse.lastIndexOf('}');
+            if (jsonStart !== -1 && jsonEnd !== -1) {
+                const jsonString = parsedResponse.substring(jsonStart, jsonEnd + 1);
+                return JSON.parse(jsonString);
+            } else {
+                throw new Error("Invalid JSON format in AI response.");
+            }
+        }
+        
     } catch (error) {
         console.error("Error fetching response:", error);
-        return {
+        return json.parse({
             mood: 'undefined',
             'strength of the mood': '0',
             songs: [
@@ -42,6 +57,6 @@ export const getResponse = async (userInput) => {
                 { songName: 'No relevant song', artistsName: 'No relevant artist' },
                 { songName: 'No relevant song', artistsName: 'No relevant artist' }
             ]
-        };
+        });
     }
 };
