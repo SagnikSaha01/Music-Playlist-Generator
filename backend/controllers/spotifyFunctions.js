@@ -85,6 +85,7 @@ export const addSongs = async(req, res) => {
         'spotify:track:3ioJs8DQw527GmqJIp5gZG', //Nail tech by Jack Harlow
         'spotify:track:6HZILIRieu8S0iqY8kIKhj', //DNA by Kendrick Lamar
     ];
+    getTrackImage("2t8yVaLvJ0RenpXUIAC52d");
     const response = await axios.post(
         'https://api.spotify.com/v1/playlists/' + playlistID + '/tracks',
         {
@@ -104,3 +105,14 @@ export const logout = (req, res) => {
     res.redirect('https://accounts.spotify.com/logout');
 }
 
+async function getTrackImage(trackuri) {
+    const response = await axios.get(
+        'https://api.spotify.com/v1/tracks/' + trackuri,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data.album.images[0].url);
+}
