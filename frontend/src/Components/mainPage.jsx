@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../App.css';
 import InputWrapper from './inputwrapper';
 import AlbumCard from './albumcard';
@@ -35,15 +36,45 @@ function mainPage() {
   const [refreshClicked, setRefreshClicked] = useState(false); // State to track if Refresh button is clicked
 
   // Handle Generate button click
-  const handleGenerateClick = () => {
-    setAlbums([]); // Clear existing albums to reset the animation
-    setShowAlbums(false); // Hide albums temporarily while resetting
-    setTimeout(() => {
-      setAlbums(albumsMockData); // Set new albums
-      setShowAlbums(true); // Show albums after animation reset
-    }, 100); // Delay to allow resetting the DOM
-  };
+  const handleGenerateClick = async () => {
+    // Clear existing albums
+    setAlbums([]);
+    setShowAlbums(false);
 
+    try {
+      // Call your backend with user’s query
+      const response = await axios.post('http://localhost:3000/api/get-response', {
+        input: query
+      });
+      // response.data should have the structure:
+      // {
+      //   mood: "...",
+      //   "strength of the mood": "...",
+      //   songs: [
+      //     { songName: "song1", artistsName: "artist1" },
+      //     ...
+      //   ]
+      // }
+      const { songs } = response.data;
+
+      // If your UI expects album objects with title, imageUrl, etc.,
+      // transform the GPT "songs" array to match your UI props.
+      // For now, let’s just do a quick mapping:
+      const newAlbums = songs.map((songObj) => ({
+        title: songObj.songName,
+        imageUrl: 'https://via.placeholder.com/150/222222/FFFFFF?text=' + songObj.songName, 
+      }));
+
+      // Timeout to keep your original small delay (optional)
+      setTimeout(() => {
+        setAlbums(newAlbums);
+        setShowAlbums(true);
+      }, 100);
+
+    } catch (error) {
+      console.error('Error fetching data from /get-response:', error);
+    }
+  };
   // Handle Refresh button click
   const handleRefreshClick = () => {
     setRefreshClicked(true); // Set refresh clicked state to trigger animation
