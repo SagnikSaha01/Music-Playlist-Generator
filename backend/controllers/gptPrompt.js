@@ -3,7 +3,6 @@ import OpenAI from 'openai';
 
 env.config();
 
-const key = process.env.OPEN_AI_KEY;
 const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,
 });

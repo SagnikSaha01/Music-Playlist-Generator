@@ -18,6 +18,7 @@ var redirect_uri = "http://localhost:3000/callback"
 let accessToken;
 let authorizationCode;
 let playlistID;
+let songIDS = [];
 
 //Redirects to spotify login page
 export const login = async(req, res) => {
@@ -85,7 +86,16 @@ export const addSongs = async(req, res) => {
         'spotify:track:3ioJs8DQw527GmqJIp5gZG', //Nail tech by Jack Harlow
         'spotify:track:6HZILIRieu8S0iqY8kIKhj', //DNA by Kendrick Lamar
     ];
+    
+    // let songList = [
+    //     'spotify:track:' + songsIDS[0],
+    //     'spotify:track:' + songsIDS[1],
+    //     'spotify:track:' + songsIDS[2],
+    //     'spotify:track:' + songsIDS[3],
+    //     'spotify:track:' + songsIDS[4],
+    // ]
     getTrackImage("2t8yVaLvJ0RenpXUIAC52d");
+    searchSong("Puffin on Zootiez", "Future");
     const response = await axios.post(
         'https://api.spotify.com/v1/playlists/' + playlistID + '/tracks',
         {
@@ -116,3 +126,23 @@ async function getTrackImage(trackuri) {
         });
         console.log(response.data.album.images[0].url);
 }
+
+
+async function searchSong(songName, songArtist) {
+
+    const response = await axios.get(
+        'https://api.spotify.com/v1/search/',
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            params: {
+                q: 'track:' + songName + ' artist:' + songArtist,
+                type:'track',
+                limit: 1
+            }
+        });
+        const id = response.data.tracks.items[0].id;
+        songIDS.push(id);
+        console.log(id);
+} 
