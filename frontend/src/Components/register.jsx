@@ -7,9 +7,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   // Local states to hold form data
+  const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   // On submit, call the backend /api/register
@@ -25,11 +25,11 @@ const Register = () => {
     try {
       const response = await axios.post(
         'http://localhost:3000/api/register',
-        { username, email, password },
+        { displayName, username, password }, // Updated request payload
         { withCredentials: true } // Include cookies in the request
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('Registration successful, redirecting...');
         navigate('/login'); // Redirect to login page after registration
       }
@@ -49,6 +49,15 @@ const Register = () => {
       {/* Right Section with the Form */}
       <div className="form-section">
         <form className="register-form" onSubmit={handleRegister}>
+          <label>Display Name</label>
+          <input
+            type="text"
+            placeholder="Display Name"
+            className="input-field"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            required
+          />
           <label>Username</label>
           <input
             type="text"
@@ -56,15 +65,6 @@ const Register = () => {
             className="input-field"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            className="input-field"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <label>Password</label>
