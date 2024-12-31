@@ -17,9 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for x-www-form-urlencoded bodies
 
-login(app);
-createPlaylist(app);
-logout(app);
+// login(app);
+// createPlaylist(app);
+// logout(app);
 
 // session store Pool
 const dbPool = new Pool({
