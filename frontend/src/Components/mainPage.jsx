@@ -107,7 +107,7 @@ function mainPage() {
       {showAlbums && (
         <Refresh
           text="&#x21bb;"
-          onClick={handleRefreshClick}
+          onClick={handleGenerateClick}
           className={`refresh-button ${refreshClicked ? 'clicked' : ''}`} // Apply clicked class when refresh is clicked
         />
       )}

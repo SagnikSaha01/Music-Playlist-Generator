@@ -146,3 +146,6 @@ async function searchSong(songName, songArtist) {
         songIDS.push(id);
         console.log(id);
 } 
+
+
+// searchSong("Puffin on Zootiez", "Future");

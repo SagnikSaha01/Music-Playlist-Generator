@@ -22,14 +22,21 @@ const Login = () => {
         password,
       });
   
+      // const response = await axios.post(
+      //   'http://localhost:3000/api/login',
+      //   {
+      //     username,
+      //     password
+      //   });
+
       const response = await axios.post(
         'http://localhost:3000/api/login',
-        {
-          username,
-          password
-        });
+        { username, password },
+        { withCredentials: true } // Include cookies in the request
+      );
   
       if (response.status === 200) {
+        console.log('Login successful, redirecting...');
         navigate('/');
       }
       console.log("HI");

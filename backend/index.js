@@ -37,20 +37,22 @@ app.use(cors({
   }));
 
 app.use(
-  session({
-    store: new pgSession({
-      pool: dbPool, // pass the pg Pool
-      tableName: 'session', // the table name to store sessions
-      createTableIfMissing: true // create the session table if it doesn't exist 
-    }),
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
-    }
-  })
-);
+    session({
+      store: new pgSession({
+        pool: dbPool, // PostgreSQL connection pool
+        tableName: 'session', // Session table name
+        createTableIfMissing: true,
+      }),
+      secret: 'your_secret_key',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: false, // Set to true if using HTTPS
+        httpOnly: true, // Prevent JavaScript access to cookies
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+      },
+    })
+  );
 
 // Routes
 app.use('/api', authRoutes);

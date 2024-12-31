@@ -1,9 +1,10 @@
 import express from 'express';
 import { getResponse } from '../controllers/gptPrompt.js';
+import { isAuthenticated } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Define a route that uses the getResponse function
-router.post('/get-response', async (req, res) => {
+router.post('/get-response', isAuthenticated, async (req, res) => {
     console.log("Request body:", req.body);
     const userInput = req.body.input;
     try {
