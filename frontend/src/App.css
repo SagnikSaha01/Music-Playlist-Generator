@@ -17,6 +17,26 @@
   font-family: sans-serif;
 }
 
+/* Logout button styles (placed in the top-right) */
+.logout {
+  position: absolute; /* Position relative to the .app-container */
+  top: 2.5rem; /* Adjust distance from the top */
+  right: 3rem; /* Adjust distance from the right */
+  background-color: #1db954; /* Green button color */
+  border: none;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout:hover {
+  background-color: #ab47fe; /* changes color on hover */
+}
+
 /* Heading in green */
 .heading {
   color: #1db954; /* Bright green color */
@@ -287,6 +307,7 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-top: 1;
 }
 
 .background-image {
@@ -349,3 +370,80 @@ body {
 .signup-link:hover {
   text-decoration: underline;
 }
+
+
+/* Register css */
+.register-container {
+  display: flex;
+  width: 100%;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-section {
+  flex: 1;
+  background-color: #1c1c1c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 300px;
+}
+
+.register-form label {
+  color: white;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.input-field {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1db954;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-link {
+  color: #1db954;
+  margin-top: 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+

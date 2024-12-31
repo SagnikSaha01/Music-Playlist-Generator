@@ -97,8 +97,16 @@ function mainPage() {
     setQuery(e.target.value);
   };
 
+  const handleLogout = () => {
+    alert('Logged out!');
+  };
+
   return (
     <div className="app-container">
+      {/* Add a button to the top right */}
+      <button className="logout" onClick={handleLogout}>
+        Logout
+      </button>
       <h1 className="heading">What are we feelin?</h1>
       <InputWrapper query={query} onInputChange={handleInputChange} />
       <Button text="Generate" onClick={handleGenerateClick} className="generate-button" />
