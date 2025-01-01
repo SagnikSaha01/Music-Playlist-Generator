@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../App.css';
 import InputWrapper from './InputWrapper';
@@ -6,14 +6,41 @@ import AlbumCard from './AlbumCard';
 import Button from './Button';
 import Refresh from './Refresh'; // Import Refresh component
 import { useNavigate } from 'react-router-dom';
+import { use } from 'react';
+
 
 const MainPage = () => { // Changed from mainPage to MainPage
-  const navigate = useNavigate();
+  
 
   const [query, setQuery] = useState('');
   const [albums, setAlbums] = useState([]); // State for albums
   const [showAlbums, setShowAlbums] = useState(false); // State to show albums and Refresh button
   const [refreshClicked, setRefreshClicked] = useState(false); // State to track if Refresh button is clicked
+  
+  useEffect(() => { //Used for getting spotify access token
+    const fetchToken = async () => {
+      const response = await axios.get('http://localhost:3000/api/get-token');
+    };
+    fetchToken();
+  }, []);
+  const navigate = useNavigate();
+  
+  const getImage = async (n,a) => { //Function for getting song images
+    const response = await axios.get('http://localhost:3000/api/search',{
+      params: {
+        songName:  n,
+        songArtist: a,
+      }
+    });
+    const imgLink = await axios.get('http://localhost:3000/api/get-image-link', {
+      params: {
+        id: response.data
+      }
+    });
+    return imgLink.data;
+  };
+
+
 
   const handleGenerateClick = async () => {
     setAlbums([]);
@@ -26,10 +53,12 @@ const MainPage = () => { // Changed from mainPage to MainPage
 
       const { songs } = response.data;
 
-      const newAlbums = songs.map((songObj) => ({
+      const newAlbums = await Promise.all( 
+      songs.map(async (songObj) => ( 
+      {
         title: songObj.songName,
-        imageUrl: `https://via.placeholder.com/150/222222/FFFFFF?text=${songObj.songName}`,
-      }));
+        imageUrl: await getImage(songObj.songName, songObj.artistsName),
+      })));
 
       setTimeout(() => {
         setAlbums(newAlbums);

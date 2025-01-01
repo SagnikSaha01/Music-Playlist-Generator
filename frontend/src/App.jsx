@@ -13,15 +13,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         {/* Protected Route */}
-        <Route
+        {/*<Route
           path="/"
           element={
             <PrivateRoute>
               <MainPage />
             </PrivateRoute>
           }
-        />
-        {/* <Route path="/" element={<MainPage />} /> */}
+        />*/}
+        {<Route path="/" element={<MainPage />} /> }
       </Routes>
     </Router>
   );  

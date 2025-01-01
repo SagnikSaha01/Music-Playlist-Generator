@@ -58,7 +58,7 @@ app.use(
 app.use('/api', authRoutes);
 app.use('/api', promptRoutes);
 // ... etc
-app.use('/', songRoutes);
+app.use('/api', songRoutes);
 app.listen(3000, () => {
     console.log("Server running on port 3000")
 })

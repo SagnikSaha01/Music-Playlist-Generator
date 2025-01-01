@@ -115,7 +115,7 @@ export const logout = (req, res) => {
     res.redirect('https://accounts.spotify.com/logout');
 }
 
-async function getTrackImage(trackuri) {
+export const getTrackImage = async(trackuri) => {
     const response = await axios.get(
         'https://api.spotify.com/v1/tracks/' + trackuri,
         {
@@ -124,11 +124,33 @@ async function getTrackImage(trackuri) {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response.data.album.images[0].url);
+        //console.log(response.data.album.images[0].url);
+        return response.data.album.images[0].url;
+}
+export const getAccessToken =  async() => {
+    const tokenUrl = 'https://accounts.spotify.com/api/token';
+
+    const response = await axios.post(
+      tokenUrl,
+      new URLSearchParams({
+        grant_type: 'client_credentials',
+      }).toString(),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        auth: {
+          username: clientID,
+          password: clientSecret,
+        },
+      }
+    );
+    accessToken = response.data.access_token;
+    
+    return response.data.access_token;
 }
 
-
-async function searchSong(songName, songArtist) {
+export const searchSong = async(songName, songArtist) => {
 
     const response = await axios.get(
         'https://api.spotify.com/v1/search/',
@@ -144,7 +166,8 @@ async function searchSong(songName, songArtist) {
         });
         const id = response.data.tracks.items[0].id;
         songIDS.push(id);
-        console.log(id);
+        //console.log(id);
+        return id;
 } 
 
 
