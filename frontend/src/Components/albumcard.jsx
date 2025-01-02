@@ -16,6 +16,7 @@ function AlbumCard({ title, imageUrl }) {
 
   return (
     <div className="album-card">
+      <h3 className="album-title">{title}</h3>
       <div className="album-image-wrapper">
         <img src={imageUrl} alt={title} className="album-image" />
       </div>

@@ -130,7 +130,7 @@
 .albums-container {
   display: flex;
   gap: 6rem;
-  margin-top: 2rem;
+  margin-top: 3.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -168,6 +168,7 @@
   animation-delay: 0s; /* Default value */
   animation-duration: 1s;
   animation-fill-mode: forwards;
+  
 }
 
 /* Wrapper for the album image with a gradient border */
@@ -188,6 +189,23 @@
   object-fit: cover;
   border-radius: 3px;
 }
+
+.album-title {
+  position: absolute; 
+  top: -41.2px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  font-size: 17px;
+  font-weight: bold;
+  color: #C4C4C4; 
+  padding: 5px 10px;
+  border-radius: 5px; 
+  z-index: 2; 
+  white-space: nowrap; 
+}
+
+
+
 
 /* Space under the image */
 .album-frame {
