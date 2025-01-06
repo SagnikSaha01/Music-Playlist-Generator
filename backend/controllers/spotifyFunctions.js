@@ -12,25 +12,25 @@ dotenv.config();
 
 const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-var redirect_uri = "http://localhost:3000/callback"
+var redirect_uri = "http://localhost:3000/api/callback"
 
 
 let accessToken;
 let authorizationCode;
-let playlistID;
 let songIDS = [];
+let playlistID;
 
-//Redirects to spotify login page
-export const login = async(req, res) => {
-        res.redirect('https://accounts.spotify.com/authorize?' +
-            querystring.stringify({
-              response_type: 'code',
-              client_id: clientID,
-              redirect_uri: redirect_uri,
-              scope:'playlist-modify-public'
-            }));
-        
-} 
+export const login = (req, res) => {
+    res.redirect('https://accounts.spotify.com/authorize?' +
+                    querystring.stringify({
+                      response_type: 'code',
+                      client_id: clientID,
+                      redirect_uri: redirect_uri,
+                      scope:'playlist-modify-public'
+                    }));  
+
+}
+
 //Redirection to get authorization codes
 export const callback = async(req, res) => {
     authorizationCode = req.query.code;
@@ -49,17 +49,18 @@ export const callback = async(req, res) => {
     accessToken = response.data.access_token;
     console.log('Current access token -->', accessToken);
 
-    res.redirect('/create');
+    res.redirect('http://localhost:3000/api/create');
 
 }
 
 //Creates a playlist directly into the spotify account that logged in
 export const createPlaylist = async(req, res) => {
+        console.log("now on createPL");
         const response = await axios.post(
             'https://api.spotify.com/v1/me/playlists',
             {
-                name: 'Test playlist',
-                description: 'Test description',
+                name: 'Your Playlist',
+                description: 'Playlist created based on mood analysis',
                 public: true
             },
             {
@@ -68,13 +69,14 @@ export const createPlaylist = async(req, res) => {
                     'Content-Type': 'application/json'
                 }
             });
-   
             playlistID = response.data.id;
-            res.redirect("/add");
+            console.log("done with createPL, going to add");
+            res.redirect('http://localhost:3000/api/add');
    
 }
 //Adds song to the playlist made earlier
 export const addSongs = async(req, res) => {
+    console.log("now on add");
     //Example songs for demo purposes
     let exampleSongIDS = [
         'spotify:track:2xLMifQCjDGFmkHkpNLD9h', //Sicko Mode by Travis Scott
@@ -87,19 +89,17 @@ export const addSongs = async(req, res) => {
         'spotify:track:6HZILIRieu8S0iqY8kIKhj', //DNA by Kendrick Lamar
     ];
     
-    // let songList = [
-    //     'spotify:track:' + songsIDS[0],
-    //     'spotify:track:' + songsIDS[1],
-    //     'spotify:track:' + songsIDS[2],
-    //     'spotify:track:' + songsIDS[3],
-    //     'spotify:track:' + songsIDS[4],
-    // ]
-    getTrackImage("2t8yVaLvJ0RenpXUIAC52d");
-    searchSong("Puffin on Zootiez", "Future");
+    let songList = [
+        'spotify:track:' + songIDS[0],
+        'spotify:track:' + songIDS[1],
+        'spotify:track:' + songIDS[2],
+        'spotify:track:' + songIDS[3],
+        'spotify:track:' + songIDS[4],
+    ]
     const response = await axios.post(
         'https://api.spotify.com/v1/playlists/' + playlistID + '/tracks',
         {
-            uris: exampleSongIDS
+            uris: songList
         },
         {
             headers: {
@@ -107,7 +107,8 @@ export const addSongs = async(req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-        res.redirect("/");
+        console.log("now done with add");
+        res.redirect("http://localhost:5173/");
 }
 
 //Redirects to spotify logout page

@@ -19,9 +19,10 @@ router.get('/search', async(req, res) => {
         console.log("Track ID for song: " + result);
         res.send(result);
     } catch(error) {
-        console.log("error on search");
+        console.log("error on search" + error.message);
         console.log("song name: " + songName);
         console.log("song artist: " + songArtist);
+        console.log(result);
     }
 });
 
@@ -36,10 +37,37 @@ router.get('/get-image-link', async(req, res) => {
     }
 
 }); 
-router.get('/spotifylogin', login);
+router.get('/spotifylogin', async(req, res) => {
+    try {
+        await login(req, res);
+    } catch (error) {
+        console.log("error on spotify login" + error.message);
+    }
+});
 router.get('/callback', callback);
-router.get('/create', createPlaylist);
-router.get('/add', addSongs);
-router.get('/logout', logout);
+router.get('/create', createPlaylist)
+
+// async(req, res) => {
+//     const { songs } = req.query;
+//     try {
+//         const result = await createPlaylist();
+//         res.send(result);
+//     } catch (error) {
+//         console.log("error in creating playlist" + error.message);
+//     }
+
+// });
+router.get('/add', addSongs); 
+//     async(req, res) =>{
+//     const { playlistID } = req.query;
+//     try {
+//         const result = await addSongs(playlistID);
+//     } catch (error) {
+//         console.log("error in adding songs to playlist" + error.message);
+//     }
+
+// }
+// );
+router.get('/spotifylogout', logout);
 
 export default router;

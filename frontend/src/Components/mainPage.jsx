@@ -16,36 +16,45 @@ const MainPage = () => { // Changed from mainPage to MainPage
   const [albums, setAlbums] = useState([]); // State for albums
   const [showAlbums, setShowAlbums] = useState(false); // State to show albums and Refresh button
   const [refreshClicked, setRefreshClicked] = useState(false); // State to track if Refresh button is clicked
-  
-  useEffect(() => { //Used for getting spotify access token
-    const fetchToken = async () => {
+  const songList = [];
+  const fetchToken = async () => {
       const response = await axios.get('http://localhost:3000/api/get-token');
     };
-    fetchToken();
-  }, []);
   const navigate = useNavigate();
   
   const getImage = async (n,a) => { //Function for getting song images
+    
     const response = await axios.get('http://localhost:3000/api/search',{
       params: {
         songName:  n,
         songArtist: a,
       }
     });
+    songList.push(response.data);
     const imgLink = await axios.get('http://localhost:3000/api/get-image-link', {
       params: {
         id: response.data
       }
     });
+    console.log(songList);
     return imgLink.data;
   };
-
+  const addSongsToPlaylist = async(songIDS) => {
+    const response = await axios.get('http://localhost:3000/api/create');
+    console.log("new playlist id:" + response.data);
+    const add = await axios.get('http://localhost:3000/api/add',{
+      params: {
+        songs: songIDS,
+        playlistID: response.data,
+      }
+    })
+  }
 
 
   const handleGenerateClick = async () => {
     setAlbums([]);
     setShowAlbums(false);
-
+    fetchToken();
     try {
       const response = await axios.post('http://localhost:3000/api/get-response', {
         input: query,
@@ -54,7 +63,8 @@ const MainPage = () => { // Changed from mainPage to MainPage
       const { songs } = response.data;
 
       const newAlbums = await Promise.all( 
-      songs.map(async (songObj) => ( 
+      songs.map(async (songObj) => (
+         
       {
         title: songObj.songName,
         imageUrl: await getImage(songObj.songName, songObj.artistsName),
@@ -82,7 +92,8 @@ const MainPage = () => { // Changed from mainPage to MainPage
   };
 
   const handleNewButtonClick = () => {
-    alert('New Action Button Clicked!');
+    window.location.href = 'http://localhost:3000/api/spotifylogin'
+    //addSongsToPlaylist(songList);
   };
 
   const handleInputChange = (e) => {
@@ -138,7 +149,7 @@ const MainPage = () => { // Changed from mainPage to MainPage
 
       {showAlbums && (
         <Button
-          text="Export to Playlist"
+          text="Export to Spotify"
           onClick={handleNewButtonClick}
           className="export-button"
         />
